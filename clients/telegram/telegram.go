@@ -1,7 +1,6 @@
 package telegram
 
 import (
-	"fmt"
 	"net/http"
 	"net/url"
 	"path"
@@ -35,6 +34,8 @@ func (c *Client) Updates(offset int, limit int) ([]Update, error) {
 }
 
 func (c *Client) doRequest(method string, query url.Values) ([]byte, error) {
+	const errMsg = "cant`t make request"
+
 	u := url.URL{
 		Scheme: "https",
 		Host:   c.host,
@@ -43,14 +44,16 @@ func (c *Client) doRequest(method string, query url.Values) ([]byte, error) {
 
 	req, err := http.NewRequest(http.MethodGet, u.String(), nil)
 	if err != nil {
-		return nil, fmt.Errorf("cant`t make request: %w", err)
+		return nil, e.Wrap(errMsg, err)
 	}
 
 	req.URL.RawQuery = query.Encode()
 
 	resp, err := c.client.Do(req)
 	if err != nil {
-		return nil, fmt.Errorf("can`t make request: %w", err)
+		{
+			return nil, e.
+		}
 	}
 }
 

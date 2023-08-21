@@ -1,21 +1,25 @@
 package main
 
 import (
-	"fmt"
-	"runtime"
+	"flag"
+	"log"
 )
 
-func Sqrt(x float64) float64 {
-	z := 1.0
-	for x := 1.0; x < 10; x++ {
-		z -= (z*z - x) / (2 * z)
-		fmt.Println(z)
-	}
-	return z
+func main() {
+	t := mustToken()
 }
 
-func main() {
-	os := runtime.GOOS
-	fmt.Println(Sqrt(4))
-	fmt.Println(os)
+func mustToken() string {
+	token := flag.String(
+		"token-bot",
+		"",
+		"token for access to tg bot")
+
+	flag.Parse()
+
+	if *token == "" {
+		log.Fatal("token is not specified")
+	}
+
+	return *token
 }
